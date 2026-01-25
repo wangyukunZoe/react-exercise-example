@@ -3,6 +3,8 @@ import './App.css';
 
 // 创建 react app 工具命令
 // npx create-react-app@5 pure_react
+// npx create-react-app@5 [project-name]
+
 function App() {
   return (
     <div className="App">
