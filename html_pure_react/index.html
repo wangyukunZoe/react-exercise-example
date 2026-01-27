@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hello React!</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <!-- react 核心库Core -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <!-- React DOM 层 -->
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+
+    <script>
+      // React 是以组件为主的，所以组件名首字母需要大写
+      function App() {
+        // const time = new Date().toLocaleTimeString();
+        const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+
+        React.useEffect(function () {
+          setInterval(function () {
+            setTime(new Date().toLocaleTimeString());
+          }, 1000);
+        }, []);
+
+        // 构件结构，创建基本的 HTML
+        //createElement('[要创建的元素名]'， props 元素属性， 元素内部内容)
+        return React.createElement("header", null, `Hello React! It's ${time}`);
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(React.createElement(App));
+    </script>
+  </body>
+</html>
