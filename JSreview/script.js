@@ -14,6 +14,7 @@ const data = [
     ],
     hasMovieAdaptation: true,
     pages: 1216,
+    // pages: 216,
     translations: {
       spanish: "El señor de los anillos",
       chinese: "魔戒",
@@ -159,7 +160,76 @@ console.log(author, title, genres);
 // const primaryGenre = genres[0];  //取数组的第一个元素索引
 // const secondGenre = genres[1];  //取数组的第一个元素索引
 
-const [primaryGenre, secondGenre] = genres;
+// const [primaryGenre, secondGenre] = genres;
 
-console.log(primaryGenre, secondGenre);
+//扩展运算符
+const [primaryGenre, secondGenre, ...otherGenres] = genres;
 
+
+console.log(primaryGenre, secondGenre, otherGenres);
+
+const newGenres = ['epic fantasy', ...genres,];
+newGenres;
+
+const updatedBook = {
+  ...book,
+  // Adding a new property
+  moviePulicationDate: '2001-12-29',
+
+  // Overwritng an.existing property
+  pages: 1210,
+
+};
+updatedBook;
+
+// Arrow function 箭头函数
+// function getYear(str) {
+//   return str.split("-")[0];
+// }
+
+const getYear = (str) => str.split("-")[0];
+console.log(getYear(publicationDate));
+
+
+
+//JavaScript的模板字符串
+//普通 javascript 字符串使用""
+// const summary = 'abc';
+const summary = `${title}, a ${pages}-pages long book, was written by ${author} 
+and published in ${getYear(publicationDate.split("-")[0])}. 
+The book has ${hasMovieAdaptation ? "" : "not"} been adapted as a movie.`;
+summary;
+
+//控制流  三元运算符
+const pagesRange = pages > 1000 ? 'over a thousand' : 'less than 1000';
+pagesRange;
+console.log(`The book has ${pagesRange} pages`);
+
+//逻辑运算符
+//三目运算符的短路
+console.log(true && "Some string");
+console.log(false && "Some string");
+console.log(hasMovieAdaptation && "This book has a movie");
+
+// falsy:0, '', null, 
+console.log('wangyukun' && "Some string");
+console.log(0 && "Some String");
+
+console.log(true || "Some string");
+console.log(false || "Some string");
+
+console.log(book.translations.spanish);
+
+const spanishTranslation = book.translations.spanish || "NOT TRANSLATION";
+spanishTranslation;
+
+//可能会出错的情况
+console.log(book.reviews.librarything.reviewsCount);
+const countWrong = book.reviews.librarything.reviewsCount || "NO DATA❎";
+countWrong;
+//因为短路，实际上是有数据的（id为 2 的阅读数据为 0，不应该显示无数据），但是用短路运算符就很容易出现这种错误
+
+//为了修复这个错误，JS 引入了一个新的运算符
+
+const count = book.reviews.librarything.reviewsCount ?? "NO DATA❎";
+count;
