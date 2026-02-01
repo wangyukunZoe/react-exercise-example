@@ -137,94 +137,9 @@ const data = [
   },
 ];
 
-function getBooks() {
-  return data;
-}
 
-function getBook(id) {
-  return data.find((d) => d.id === id)
-}
+fetch("https://jsonplaceholder.typicode.com/todos")
+  .then((res) => res.json())
+  .then((data) => console.log(data));
 
-// map循环遍历一个数组，并返回一个新的数组
-const books = getBooks();
-books;
-const x = [1, 2, 3, 4, 5].map((element) => element * 2);
-console.log(x);
-
-const titles = books.map((book) => book.title);
-titles;
-
-function getTotalReviewCount(book) {
-  const goodreads = book.reviews?.goodreads?.reviewsCount;
-  const librarything = book.reviews?.librarything?.reviewsCount ?? 0;
-
-  return goodreads + librarything;
-}
-
-const essentialData = books.map((book) => (
-  {
-    title: book.title,
-    author: book.author,
-    reviewsCount: getTotalReviewCount(book),
-  }
-)
-);
-
-essentialData;
-
-//filter 数组过滤器
-// 利用 JS 自带的 filter 数组过滤器筛选出 图书页数大于 500  的对象
-const longBooksWithMovie = books
-  .filter((book) => book.pages > 500)
-  .filter(book => book.hasMovieAdaptation);
-longBooksWithMovie
-
-// JS Filter 与 map 方法的混用
-const adventureBooks = books.filter((books) =>
-  books.genres.includes('adventure')
-).map((book) => book.title);
-adventureBooks;
-
-// 数组 reduce 方法
-// 将所有书的页数相加 acc-> accumulator
-// 利用 reduce 方法创建一个累加器
-const pagesAllBooks = books.reduce((accumulator, book) => accumulator + book.pages, 0)
-pagesAllBooks;
-
-const pagesSum = books.reduce((sum, book) => sum + book.pages, 0);
-
-//数组排序
-// 注意⚠️，这里的排序会改变原数组的序列
-// 为了避免这种情况的发生，尤其在我们使用 react 框架的时候，我们需要复制一个新的数组进行排序操作
-const arr = [3, 7, 1, 9, 6];
-const sorted = arr.sort((a, b) => a - b); //升序排序需要进行 a-b计算  // b-a 降序
-sorted;
-arr;
-
-const arr1 = [3, 7, 1, 9, 6];
-const sorted1 = arr1.slice().sort((a, b) => a - b); //升序排序需要进行 a-b计算  // b-a 降序
-sorted;
-arr1;
-
-// 为了避免这种情况的发生，尤其在我们使用 react 框架的时候，我们需要复制一个新的数组进行排序操作
-const sortedByPages = books.slice().sort((a, b) => a.pages - b.pages)
-sortedByPages;
-
-//1) Add book object to array
-const newBook = {
-  id: 6,
-  title: "Harry Potter and the Chamber of Secrets",
-  author: "J. K. Rowling",
-};
-const booksAfterAdd = [...books, newBook];
-booksAfterAdd;
-
-// 2) Delete book object from array
-const booksAfterDelete = booksAfterAdd.filter(book => book.id !== 3);
-booksAfterDelete;
-
-// 3) Update book object in the array
-const booksAfterUpdate = booksAfterDelete.map((book) =>
-  book.id === 1 ? { ...book, pages: 1210 } : book
-);
-booksAfterUpdate;
+console.log("wangyukun");
