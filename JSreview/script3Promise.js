@@ -138,8 +138,21 @@ const data = [
 ];
 
 
-fetch("https://jsonplaceholder.typicode.com/todos")
-  .then((res) => res.json())
-  .then((data) => console.log(data));
+//fetch 请求与资源获取 res
+// fetch("https://jsonplaceholder.typicode.com/todos")
+//   .then((res) => res.json())
+//   .then((data) => console.log(data));
 
-console.log("wangyukun");
+// console.log("wangyukun");
+
+// 用更简洁的形式写上面的 fetch 代码
+async function getTools() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = await res.json();  // 将获得的数据 JSON 序列化
+  console.log(data);
+
+  return data;
+}
+
+const todos = getTools();
+console.log(todos);
