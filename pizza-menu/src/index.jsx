@@ -1,51 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
-
-const pizzaData = [
-  {
-    name: "Focaccia",
-    ingredients: "Bread with italian olive oil and rosemary",
-    price: 6,
-    photoName: "pizzas/focaccia.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Margherita",
-    ingredients: "Tomato and mozarella",
-    price: 10,
-    photoName: "pizzas/margherita.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Spinaci",
-    ingredients: "Tomato, mozarella, spinach, and ricotta cheese",
-    price: 12,
-    photoName: "pizzas/spinaci.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Funghi",
-    ingredients: "Tomato, mozarella, mushrooms, and onion",
-    price: 12,
-    photoName: "pizzas/funghi.jpg",
-    soldOut: false,
-  },
-  {
-    name: "Pizza Salamino",
-    ingredients: "Tomato, mozarella, and pepperoni",
-    price: 15,
-    photoName: "pizzas/salamino.jpg",
-    soldOut: true,
-  },
-  {
-    name: "Pizza Prosciutto",
-    ingredients: "Tomato, mozarella, ham, aragula, and burrata cheese",
-    price: 18,
-    photoName: "pizzas/prosciutto.jpg",
-    soldOut: false,
-  },
-];
+import pizzaData from "./pizzaData";
 
 // 在 react 中状态组件一定要以首字母大写🍤开头！
 // JSX 中的 CSS class 一定要用 className
@@ -75,21 +31,67 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  // const pizzas = []; //不推荐这种，因为数组里面依然是有数据的，在渲染的时候会渲染出一个空节点
+  const numPizzas = pizzas.length;
+
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza
+
+      {/*  利用三元运算符来改进 ?  */}
+      {numPizzas > 0 ? (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
+
+      {/* 
+        numPizzas > 0 && (
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        )
+    */}
+
+      {/* name={pizza.name} photoName={pizza.photoName} */}
+      {/* <Pizza pizzaObj={pizza} key={pizza.name} /> */}
+      {/* 列表渲染map 方法 */}
+
+      {/*
+        <ul className="pizzas">
+                {pizzaData.map((pizza) => (
+                  <li className="pizza">
+                    <img src={pizza.photoName} alt={pizza.name} />
+                    <div>
+                      <h3>{pizza.name}</h3>
+                      <p>{pizza.ingredients}</p>
+                      <span>{pizza.price}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+      */}
+
+      {/* <Pizza
         name="Pizza Spinaci"
         ingredients="Tomato, mozarella, spinach, and ricotta cheese"
         photoName="pizzas/spinaci.jpg"
         price={10}
       />
+
       <Pizza
         name="Pizza Funghi"
         ingredients="Tomato mushrooms"
         price={12}
         photoName="pizzas/funghi.jpg"
-      />
+      /> */}
     </main>
   );
 }
@@ -107,24 +109,27 @@ function Menu() {
 function Pizza(props) {
   console.log(props);
 
+  //如果你想返回修改三元表达式中的一个元素的话，你可以用传统的 if 表达式来解决
+  if (props.pizzaObj.soldOut) return null;
+
   return (
-    <div className="pizza">
-      <img src={props.photoName} alt={props.name} />
+    <li className="pizza">
+      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
       <div>
-        <h3>{props.name}</h3>
-        <p>{props.ingredients}</p>
-        <span>{props.price + 3}</span>
+        <h3>{props.pizzaObj.name}</h3>
+        <p>{props.pizzaObj.ingredients}</p>
+        <span>{props.pizzaObj.price}</span>
       </div>
-    </div>
+    </li>
   );
 }
 
 function Footer() {
   const hour = new Date().getHours();
-  const openHour = 8;
+  const openHour = 21;
   const closeHour = 22;
-  const ipOpen = hour >= openHour && hour <= closeHour;
-  console.log(ipOpen);
+  const isOpen = hour >= openHour && hour <= closeHour;
+  console.log(isOpen);
 
   //   if (hour >= openHour && hour <= closeHour) {
   //     alert("We're currently open!");
@@ -132,11 +137,29 @@ function Footer() {
   //     alert("Sorry, we're closed");
   //   }
 
+  // {[open] -> true && <要执行的语句operators and sentence need to be executed>}
+
+  // if (!isOpen) return <p>CLOSED</p>;
+
   return (
     <footer className="footer">
-      {new Date().toLocaleTimeString()}. We're currently open
+      {isOpen ? (
+        <div className="order">
+          <p>
+            We're open until until {closeHour}:00. Come to visit us or order
+            online.
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      ) : (
+        <p>
+          We're happy to welcome you between {openHour}:00 and {closeHour}:00.
+        </p>
+      )}
     </footer>
   );
+
+  // {new Date().toLocaleTimeString()}. We're currently open
   //   return React.createElement("footer", null, "We're currently open!");
 }
 
