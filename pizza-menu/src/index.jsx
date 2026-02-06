@@ -40,58 +40,23 @@ function Menu() {
       <h2>Our menu</h2>
 
       {/*  利用三元运算符来改进 ?  */}
+      {/* <react fragment> <></>*/}
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzas.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
-      ) : (
-        <p>We're still working on our menu. Please come back later :)</p>
-      )}
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
 
-      {/* 
-        numPizzas > 0 && (
           <ul className="pizzas">
             {pizzas.map((pizza) => (
               <Pizza pizzaObj={pizza} key={pizza.name} />
             ))}
           </ul>
-        )
-    */}
-
-      {/* name={pizza.name} photoName={pizza.photoName} */}
-      {/* <Pizza pizzaObj={pizza} key={pizza.name} /> */}
-      {/* 列表渲染map 方法 */}
-
-      {/*
-        <ul className="pizzas">
-                {pizzaData.map((pizza) => (
-                  <li className="pizza">
-                    <img src={pizza.photoName} alt={pizza.name} />
-                    <div>
-                      <h3>{pizza.name}</h3>
-                      <p>{pizza.ingredients}</p>
-                      <span>{pizza.price}</span>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-      */}
-
-      {/* <Pizza
-        name="Pizza Spinaci"
-        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
-        photoName="pizzas/spinaci.jpg"
-        price={10}
-      />
-
-      <Pizza
-        name="Pizza Funghi"
-        ingredients="Tomato mushrooms"
-        price={12}
-        photoName="pizzas/funghi.jpg"
-      /> */}
+        </>
+      ) : (
+        <p>We're still working on our menu. Please come back later :)</p>
+      )}
     </main>
   );
 }
@@ -106,51 +71,37 @@ function Menu() {
 
 */
 
-function Pizza(props) {
-  console.log(props);
-
+function Pizza({ pizzaObj }) {
+  // console.log(props)
   //如果你想返回修改三元表达式中的一个元素的话，你可以用传统的 if 表达式来解决
-  if (props.pizzaObj.soldOut) return null;
+  if (pizzaObj.soldOut) return null;
 
   return (
     <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        <span>{pizzaObj.price}</span>
       </div>
     </li>
   );
 }
 
-function Footer() {
+function Footer(props) {
+  console.log(props);
+
   const hour = new Date().getHours();
-  const openHour = 21;
+  const openHour = 12;
   const closeHour = 22;
-  const isOpen = hour >= openHour && hour <= closeHour;
+  // const isOpen = hour >= openHour && hour <= closeHour;
+  const isOpen = true;
   console.log(isOpen);
-
-  //   if (hour >= openHour && hour <= closeHour) {
-  //     alert("We're currently open!");
-  //   } else {
-  //     alert("Sorry, we're closed");
-  //   }
-
-  // {[open] -> true && <要执行的语句operators and sentence need to be executed>}
-
-  // if (!isOpen) return <p>CLOSED</p>;
 
   return (
     <footer className="footer">
       {isOpen ? (
-        <div className="order">
-          <p>
-            We're open until until {closeHour}:00. Come to visit us or order
-            online.
-          </p>
-          <button className="btn">Order</button>
-        </div>
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
           We're happy to welcome you between {openHour}:00 and {closeHour}:00.
@@ -161,6 +112,18 @@ function Footer() {
 
   // {new Date().toLocaleTimeString()}. We're currently open
   //   return React.createElement("footer", null, "We're currently open!");
+}
+
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        We're open from {openHour}:00 to {closeHour}:00. Come to visit us or
+        order online.
+      </p>
+      <button className="btn">Order</button>
+    </div>
+  );
 }
 
 // React v18写法
@@ -205,3 +168,64 @@ Describe what UI should look like using JSX, based on current data
 React is an abstraction away from DOM: we never touch the DOM
 Instead, we think of the UI as a reflection of the current data
 */
+
+/* 
+        numPizzas > 0 && (
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        )
+    */
+
+/* name={pizza.name} photoName={pizza.photoName} */
+/* <Pizza pizzaObj={pizza} key={pizza.name} /> */
+
+/* 列表渲染map 方法 */
+
+/*
+        <ul className="pizzas">
+                {pizzaData.map((pizza) => (
+                  <li className="pizza">
+                    <img src={pizza.photoName} alt={pizza.name} />
+                    <div>
+                      <h3>{pizza.name}</h3>
+                      <p>{pizza.ingredients}</p>
+                      <span>{pizza.price}</span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+      */
+
+/* <Pizza
+        name="Pizza Spinaci"
+        ingredients="Tomato, mozarella, spinach, and ricotta cheese"
+        photoName="pizzas/spinaci.jpg"
+        price={10}
+      />
+      */
+
+//
+// function Order(props) {
+//   return (
+//     <div className="order">
+//       <p>
+//         We're open until until {props.closeHour}:00. Come to visit us or order
+//         online.
+//       </p>
+//       <button className="btn">Order</button>
+//     </div>
+//   );
+// }
+
+//   if (hour >= openHour && hour <= closeHour) {
+//     alert("We're currently open!");
+//   } else {
+//     alert("Sorry, we're closed");
+//   }
+
+// {[open] -> true && <要执行的语句operators and sentence need to be executed>}
+
+// if (!isOpen) return <p>CLOSED</p>;
